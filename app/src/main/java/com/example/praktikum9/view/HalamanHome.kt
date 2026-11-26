@@ -38,6 +38,7 @@ import com.example.praktikum9.uicontroller.route.DestinasiHome
 import com.example.praktikum9.viewmodel.HomeViewModel
 import com.example.praktikum9.viewmodel.PenyediaViewModel
 import com.example.praktikum9.viewmodel.StatusUiSiswa
+import androidx.compose.foundation.layout.fillMaxWidth
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -127,6 +128,63 @@ fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
         Text(text = stringResource(R.string.gagal), modifier = Modifier.padding(16.dp))
         Button(onClick = retryAction) {
             Text(stringResource(R.string.retry))
+        }
+    }
+}
+
+
+@Composable
+fun DaftarSiswa(
+    itemSiswa: List<DataSiswa>,
+    //edit 2.1 : tambahkan parameter onSiswaClick
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = Modifier) {
+        items(items = itemSiswa, key = { it.id }) { person ->
+            ItemSiswa(
+                siswa = person,
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.padding_small))
+                //edit 2.2 jadikan itemsiswa menjadi clickable ()
+            )
+        }
+    }
+}
+
+@Composable
+fun ItemSiswa(
+    siswa: DataSiswa,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+        ) {
+            Row(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = siswa.nama,
+                    style = MaterialTheme.typography.titleLarge,
+                )
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    imageVector = Icons.Default.Phone,
+                    contentDescription = null,
+                )
+                Text(
+                    text = siswa.telpon,
+                    style = MaterialTheme.typography.titleMedium
+                )
+            }
+            Text(
+                text = siswa.alamat,
+                style = MaterialTheme.typography.titleMedium
+            )
         }
     }
 }
